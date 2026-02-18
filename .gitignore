@@ -1,0 +1,11 @@
+bin/
+obj/
+.vs/
+.vscode/
+
+*.db*
+
+appsettings.Development.json
+
+Logos/Images/*
+!Logos/Images/.gitkeep
