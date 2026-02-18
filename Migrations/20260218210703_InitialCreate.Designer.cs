@@ -43,9 +43,6 @@ namespace Homesplash.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("IconLink")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Link")
                         .IsRequired()
                         .HasColumnType("TEXT");

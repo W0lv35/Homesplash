@@ -8,11 +8,9 @@ namespace Homesplash.Controllers;
 
 [ApiController]
 [Route("categories")]
-public class CategoryController(LinkTileContext dbContext) : ControllerBase
-{
+public class CategoryController(LinkTileContext dbContext) : ControllerBase {
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<CategoryDto>>> GetAll()
-    {
+    public async Task<ActionResult<IEnumerable<CategoryDto>>> GetAll() {
         var categories = await dbContext.Categories
             .AsNoTracking()
             .Select(cat => CategoryDto.FromModel(cat))
@@ -21,15 +19,13 @@ public class CategoryController(LinkTileContext dbContext) : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<CategoryDto>> GetCategoryById(int id)
-    {
+    public async Task<ActionResult<CategoryDto>> GetCategoryById(int id) {
         var category = await dbContext.Categories.FindAsync(id);
         return category == null ? NotFound() : Ok(category);
     }
 
     [HttpGet("tiles/{id}")]
-    public async Task<ActionResult<IEnumerable<TileDetailsDto>>> GetTilesByCategoryId(int id)
-    {
+    public async Task<ActionResult<IEnumerable<TileDetailsDto>>> GetTilesByCategoryId(int id) {
         var tiles = await dbContext.Tiles
             .Where(tile => tile.CategoryId == id)
             .Select(tile => TileDetailsDto.FromModel(tile))
@@ -38,8 +34,7 @@ public class CategoryController(LinkTileContext dbContext) : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<CategoryDto>> AddCategory([FromBody] CreateCategoryDto newCategory)
-    {
+    public async Task<ActionResult<CategoryDto>> AddCategory([FromBody] CreateCategoryDto newCategory) {
         var category = new Category { Name = newCategory.Name };
         dbContext.Categories.Add(category);
         await dbContext.SaveChangesAsync();
@@ -47,8 +42,7 @@ public class CategoryController(LinkTileContext dbContext) : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateCategory(int id, [FromBody] CreateCategoryDto updateCategory)
-    {
+    public async Task<IActionResult> UpdateCategory(int id, [FromBody] CreateCategoryDto updateCategory) {
         var category = await dbContext.Categories.FindAsync(id);
         if (category == null) return NotFound();
 
@@ -59,8 +53,7 @@ public class CategoryController(LinkTileContext dbContext) : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteCategory(int id)
-    {
+    public async Task<IActionResult> DeleteCategory(int id) {
         var category = await dbContext.Categories.FindAsync(id);
         if (category == null) return NotFound();
 

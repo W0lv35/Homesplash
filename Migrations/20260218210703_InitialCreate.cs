@@ -31,7 +31,6 @@ namespace Homesplash.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     Link = table.Column<string>(type: "TEXT", nullable: false),
-                    IconLink = table.Column<string>(type: "TEXT", nullable: true),
                     CategoryId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>

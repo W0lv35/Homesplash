@@ -9,11 +9,9 @@ namespace Homesplash.Controllers;
 
 [ApiController]
 [Route("linktiles")]
-public class LinkTileController(LinkTileContext dbContext, ILogoQueue logoQueue) : ControllerBase
-{
+public class LinkTileController(LinkTileContext dbContext, ILogoQueue logoQueue) : ControllerBase {
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<TileSummaryDto>>> GetAll()
-    {
+    public async Task<ActionResult<IEnumerable<TileSummaryDto>>> GetAll() {
         var tiles = await dbContext.Tiles
             .Include(t => t.Category)
             .AsNoTracking()
@@ -23,18 +21,15 @@ public class LinkTileController(LinkTileContext dbContext, ILogoQueue logoQueue)
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetById(int id)
-    {
+    public async Task<IActionResult> GetById(int id) {
         var tile = await dbContext.Tiles.FindAsync(id);
         return tile == null ? NotFound() : Ok(TileDetailsDto.FromModel(tile));
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(CreateLinkTileDto newTile)
-    {
+    public async Task<IActionResult> Create(CreateLinkTileDto newTile) {
         var uri = await LogoUrlResolver.GetResolvedUri(newTile.Link);
-        var tile = new Tile
-        {
+        var tile = new Tile {
             Name = newTile.Name,
             Link = uri?.AbsoluteUri ?? newTile.Link,
             CategoryId = newTile.CategoryId
@@ -46,8 +41,7 @@ public class LinkTileController(LinkTileContext dbContext, ILogoQueue logoQueue)
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateTile(int id, [FromBody] CreateLinkTileDto updatedTile)
-    {
+    public async Task<IActionResult> UpdateTile(int id, [FromBody] CreateLinkTileDto updatedTile) {
         var tile = await dbContext.Tiles.FindAsync(id);
         if (tile == null) return NotFound();
 
@@ -60,8 +54,7 @@ public class LinkTileController(LinkTileContext dbContext, ILogoQueue logoQueue)
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteById(int id)
-    {
+    public async Task<IActionResult> DeleteById(int id) {
         var tile = await dbContext.Tiles.FindAsync(id);
         if (tile == null) return NotFound();
 
