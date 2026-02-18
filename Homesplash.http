@@ -17,3 +17,7 @@ Content-Type: application/json
 ###
 
 GET {{Homesplash_HostAddress}}/linktiles
+
+###
+
+GET {{Homesplash_HostAddress}}/logo?url=github.com
