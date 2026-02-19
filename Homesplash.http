@@ -4,7 +4,6 @@ GET {{Homesplash_HostAddress}}/categories
 Accept: application/json
 
 ###
-
 POST {{Homesplash_HostAddress}}/linktiles
 Content-Type: application/json
 
@@ -15,9 +14,10 @@ Content-Type: application/json
 }
 
 ###
-
 GET {{Homesplash_HostAddress}}/linktiles
 
 ###
-
 GET {{Homesplash_HostAddress}}/logo?url=github.com
+
+###
+GET {{Homesplash_HostAddress}}/logo?url=

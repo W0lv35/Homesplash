@@ -6,17 +6,16 @@ namespace Homesplash.Controllers;
 [Route("logo")]
 public class LogoController : ControllerBase {
     [HttpGet]
-    public IActionResult GetLogo([FromQuery] string url) {
-        if (string.IsNullOrWhiteSpace(url)) return BadRequest("URL is required");
+    public IActionResult GetLogo([FromQuery] string? url) {
+        if (string.IsNullOrWhiteSpace(url)) return GetDefaultLogo();
 
         try {
             var uri = new Uri(url.StartsWith("http") ? url : $"https://{url}");
             var host = uri.Host;
 
             var filePath = Path.Combine(Directory.GetCurrentDirectory(), "Logos", "Images", $"{host}.jpg");
-            var defaultPath = Path.Combine(Directory.GetCurrentDirectory(), "Logos", "Images", "default.png");
             if (!System.IO.File.Exists(filePath)) {
-                return System.IO.File.Exists(defaultPath) ? File(System.IO.File.OpenRead(defaultPath), "image/png" ) : NotFound();
+                return GetDefaultLogo();
             }
 
             var image = System.IO.File.OpenRead(filePath);
@@ -24,5 +23,11 @@ public class LogoController : ControllerBase {
         } catch {
             return BadRequest("Invalid URL format");
         }
+    }
+
+    private IActionResult GetDefaultLogo() {
+        var defaultPath = Path.Combine(Directory.GetCurrentDirectory(), "Logos", "Images", "default.png");
+        if (!System.IO.File.Exists(defaultPath)) return NotFound();
+        return File(System.IO.File.OpenRead(defaultPath), "image/png");
     }
 }
