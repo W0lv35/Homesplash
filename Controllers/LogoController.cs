@@ -14,9 +14,9 @@ public class LogoController : ControllerBase {
             var host = uri.Host;
 
             var filePath = Path.Combine(Directory.GetCurrentDirectory(), "Logos", "Images", $"{host}.jpg");
-
+            var defaultPath = Path.Combine(Directory.GetCurrentDirectory(), "Logos", "Images", "default.png");
             if (!System.IO.File.Exists(filePath)) {
-                return NotFound("Logo not found. It may be in the queue for processing.");
+                return System.IO.File.Exists(defaultPath) ? File(System.IO.File.OpenRead(defaultPath), "image/png" ) : NotFound();
             }
 
             var image = System.IO.File.OpenRead(filePath);
